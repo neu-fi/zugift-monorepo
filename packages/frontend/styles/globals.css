@@ -1,16 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-html {
-  scroll-behavior: smooth;
-}
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
+    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: #19473f;
 }
 
 a {
@@ -20,108 +14,4 @@ a {
 
 * {
   box-sizing: border-box;
-}
-
-button {
-  cursor: pointer;
-}
-
-@layer base {
-  .text-green-1 {
-    color: #02e2ac;
-  }
-  .text-green-2 {
-    color: #12bc92;
-  }
-  .text-green-3 {
-    color: #b3fded;
-  }
-  .text-green-4 {
-    color: #11bc92;
-  }
-  .text-yellow-1 {
-    color: #f2b705;
-  }
-  .text-yellow-2 {
-    color: #ffeea8;
-  }
-  .text-yellow-3 {
-    color: #ffe686;
-  }
-  .text-dark-1 {
-    color: #1f0b9c;
-  }
-}
-
-@layer components {
-  .border-green-1 {
-    border-color: #02e2ac;
-  }
-  .border-green-2 {
-    border-color: #12bc92;
-  }
-  .border-green-3 {
-    border-color: #b3fded;
-  }
-  .border-green-4 {
-    border-color: #11bc92;
-  }
-  .border-yellow-1 {
-    border-color: #f2b705;
-  }
-  .border-yellow-2 {
-    border-color: #ffeea8;
-  }
-  .border-yellow-3 {
-    border-color: #ffe686;
-  }
-}
-@layer utilities {
-  .bg-green-1 {
-    background-color: #dbffe3;
-  }
-  .bg-green-2 {
-    background-color: #12bc92;
-  }
-  .bg-green-3 {
-    background-color: #b3fded;
-  }
-  .bg-green-4 {
-    background-color: #11bc92;
-  }
-  .bg-green-5 {
-    background-color: #f4fcf5;
-  }
-  .bg-yellow-1 {
-    background-color: #f2b705;
-  }
-  .bg-yellow-2 {
-    background-color: #ffeea8;
-  }
-  .bg-yellow-3 {
-    background-color: #ffe686;
-  }
-}
-
-.connect-button > button {
-  background-color: #ffcc07;
-}
-
-.bg-img-left {
-  background-image: url("/left-coin@3x.png");
-}
-.bg-img-right {
-  background-image: url("/right-coin@3x.png");
-}
-
-.bg-mobile-middle {
-  background-image: url("/3-coin@3x.png");
-}
-
-.bg-connect-green {
-  background-color: #00bb8b;
-}
-
-.border-connect-green {
-  border-color: #567368;
 }

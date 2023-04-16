@@ -1,0 +1,130 @@
+.container {
+  position: relative;
+}
+
+.navbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+}
+
+.main {
+  display: flex;
+  width: 100vw;
+  align-items: center;
+  padding: 5px;
+  flex-direction: column;
+}
+
+.passport {
+  font-weight: 200;
+  color: #f0cb6e;
+  letter-spacing: 5px;
+  font-size: 36px;
+}
+
+.logo {
+  margin: 20px 0px;
+  filter: drop-shadow(0px 0px 50px wheat);
+  width: 150px;
+}
+.zuzalu {
+  font-weight: 300;
+  color: #f0cb6e;
+  letter-spacing: 5px;
+  font-size: 20px;
+}
+
+.input {
+  background: none;
+  border: silver 1px solid;
+  border-radius: 20px;
+  padding: 12px 20px;
+  min-width: 250px;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.button {
+  background-color: #f0cb6e;
+  color: #19473f;
+  border: none;
+  border-radius: 20px;
+  padding: 12px 20px;
+  min-width: 250px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  transition: 500ms;
+}
+
+.button:hover {
+  cursor: pointer;
+  scale: 1.02;
+}
+.area {
+  width: 40%;
+  height: 200px;
+  background-color: #3c665e;
+  border: 4px #253d38 solid;
+  border-radius: 20px;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  padding: 15px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5px 20px;
+}
+
+.passItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5px 20px;
+  position: relative;
+}
+
+.passname {
+  position: absolute;
+  z-index: 20;
+  color: white;
+  /* -webkit-text-stroke: 1px wheat; */
+  font-size: 14px;
+  top: 10%;
+  font-weight: normal;
+  text-align: center;
+  background-color: rgba(37, 61, 56, 0.6);
+  border-radius: 15px;
+  padding: 5px;
+}
+
+.nft {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 5px;
+}
+
+.giftBtn {
+  background-color: #f0cb6e;
+  color: #19473f;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  width: 100%;
+  transition: 0.2s;
+}
+
+.giftBtn:hover {
+  cursor: pointer;
+  scale: 1.02;
+}
