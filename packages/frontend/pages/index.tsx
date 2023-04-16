@@ -32,7 +32,7 @@ const Home: NextPage = () => {
               <div className={styles.area}>
                 <div className={styles.passItem}>
                   <img src={pass.src} alt="nftImg" className={styles.nft} />
-                  <p className={styles.passname}>Abdurrahman Louisana Wings</p>
+                  <p className={styles.passname}>Vitalik Buterin</p>
                   <button onClick={() => setOpenModal(true)} className={styles.giftBtn}>
                     Gift
                   </button>
