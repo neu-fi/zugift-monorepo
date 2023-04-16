@@ -8,34 +8,31 @@ const main: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     const zugiftContract = await hre.ethers.getContract("Zugift");
     let totalSupply;
 
-    const mintPrice = await zugiftContract.mintPrice();
+    const donationAmount = await zugiftContract.donationAmount();
     
     console.log("\ntotalSupply():");
     totalSupply = (await zugiftContract.totalSupply());
     console.log(totalSupply.toString());
     
-    console.log("\nMinting a card...");
-    await (await zugiftContract.connect(deployer).mint(deployer.address, 1, { value: mintPrice })).wait();
-
-    let quantity = 5;
-    console.log("\nMinting", quantity, "cards...");
-    await (await zugiftContract.connect(deployer).mint(deployer.address, quantity, { value: mintPrice.mul(quantity) })).wait();
+    console.log("\nMinting a Zugift...");
+    await (await zugiftContract.connect(deployer).demoMint(deployer.address, { value: donationAmount })).wait();
 
     console.log("\ntotalSupply():");
     totalSupply = (await zugiftContract.totalSupply());
     console.log(totalSupply.toString());
 
     if ( 0 < totalSupply ) {
-      let tokenURI = await zugiftContract.tokenURI(totalSupply);
-      let decodedTokenURI = JSON.parse(Buffer.from(tokenURI.split(',')[1], 'base64').toString());
+      // Uncomment when base64 url and image are returned.
+      // let tokenURI = await zugiftContract.tokenURI(totalSupply);
+      // let decodedTokenURI = JSON.parse(Buffer.from(tokenURI.split(',')[1], 'base64').toString());
 
-      console.log("\nDecoded tokenURI(tokenId):");
-      console.log(decodedTokenURI);
+      // // console.log("\nDecoded tokenURI(tokenId):");
+      // // console.log(decodedTokenURI);
 
-      let decodedImage = Buffer.from(decodedTokenURI['image'].split(',')[1], 'base64').toString();
+      // // let decodedImage = Buffer.from(decodedTokenURI['image'].split(',')[1], 'base64').toString();
 
-      console.log("\nDecoded image:");
-      console.log(decodedImage);
+      // // console.log("\nDecoded image:");
+      // // console.log(decodedImage);
     } else {
       console.error("Cannot find tokens");
     }

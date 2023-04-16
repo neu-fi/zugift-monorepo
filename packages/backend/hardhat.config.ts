@@ -4,7 +4,7 @@ import "hardhat-deploy";
 import "hardhat-contract-sizer";
 import "@nomiclabs/hardhat-ethers";
 import "@nomiclabs/hardhat-etherscan";
-import "hardhat-exposed";
+// import "hardhat-exposed";
 import chai from "chai";
 import { solidity } from "ethereum-waffle";
 import { HardhatUserConfig } from "hardhat/types";

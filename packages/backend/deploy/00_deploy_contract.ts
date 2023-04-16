@@ -1,71 +1,20 @@
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { DeployFunction } from 'hardhat-deploy/types';
-import { BokkyPooBahsDateTimeContractAddress, LinkAddress, WrapperAddress, zugiftArgs } from '../config';
 import { BigNumber } from 'ethers';
 
 const main: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
   const { deployments } = hre;
   const { deploy } = deployments;
-
-  let bokkyPooBahsBokkyPooBahsDateTimeContractAddress = BokkyPooBahsDateTimeContractAddress;
   
-  if (bokkyPooBahsBokkyPooBahsDateTimeContractAddress == null) {
-    let bokkyPooBahsBokkyPooBahsDateTimeContract = await deploy('BokkyPooBahsDateTimeContract', {
-      from: deployer,
-      log: true,
-    });
-    bokkyPooBahsBokkyPooBahsDateTimeContractAddress = bokkyPooBahsBokkyPooBahsDateTimeContract.address;
-  }
-
-  let linkAddress = LinkAddress;
-  if (linkAddress == null) {
-    let linkToken = await deploy("LinkToken", {
-      from: deployer,
-      log: true,
-    });
-    linkAddress = linkToken.address;
-  }
-
-  let wrapperAddress = WrapperAddress;
-  if (wrapperAddress == null) {
-    let vrfCoordinatorV2Mock = await deploy("VRFCoordinatorV2Mock", {
-      args: [
-        BigNumber.from('100000000000000000'), // 0.1 LINK
-        1e9, // 0.000000001 LINK per gas
-      ],
-      from: deployer,
-      log: true,
-    });
-    let mockV3Aggregator = await deploy("MockV3Aggregator", {
-      args : [
-        18,
-        BigNumber.from(String(3e16)) // 0.003
-      ],
-      from: deployer,
-      log: true,
-    })
-    let vrfV2Wrapper = await deploy("VRFV2Wrapper", {
-      args : [
-        linkAddress,
-        mockV3Aggregator.address,
-        vrfCoordinatorV2Mock.address
-      ],
-      from: deployer,
-      log: true
-    })
-
-    wrapperAddress = vrfV2Wrapper.address;
-  }
-  
-  await deploy('Zupass', {
+  let zupass = await deploy('Zupass', {
     args: ['Zuzalu Passports', 'ZUPASS'],
     from: deployer,
     log: true,
   });
 
   let zugiftSVG = await deploy('ZugiftSVG', {
-    args: [bokkyPooBahsBokkyPooBahsDateTimeContractAddress],
+    args: [],
     from: deployer,
     log: true,
   });
@@ -77,7 +26,14 @@ const main: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   });
   
   await deploy('Zugift', {
-    args: [...zugiftArgs, zugiftMetadata.address, linkAddress, wrapperAddress],
+    args: [
+      "ENSBound Zugift NFTs",
+      "ZUGIFT",
+      zupass.address,
+      BigNumber.from(String(1e15)), // 0.0001 ETH
+      "0x8e160C8E949967D6B797CdF2A2F38f6344a5C95f", // https://etherscan.io/name-lookup-search?id=zuzalu.eth
+      zugiftMetadata.address
+    ],
     from: deployer,
     log: true,
   });

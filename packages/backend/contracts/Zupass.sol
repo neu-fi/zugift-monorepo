@@ -4,8 +4,9 @@
 pragma solidity ^0.8.17;
 
 import "erc721a/contracts/ERC721A.sol";
+import "./interfaces/IZupass.sol";
 
-contract Zupass is ERC721A {
+contract Zupass is ERC721A, IZupass {
 
     /*//////////////////////////////////////////////////////////////
                                 ENUMS
@@ -23,7 +24,7 @@ contract Zupass is ERC721A {
                              STATE VARIABLES
     //////////////////////////////////////////////////////////////*/
 
-    mapping(uint => string) names;
+    mapping(uint => string) public names;
 
     /*//////////////////////////////////////////////////////////////
                                  EVENTS
@@ -107,6 +108,9 @@ contract Zupass is ERC721A {
             }
         }
         return tokenIds;
+    }
+    function getName(uint256 id) external view returns (string memory) {
+        return names[id];
     }
 
     /*//////////////////////////////////////////////////////////////

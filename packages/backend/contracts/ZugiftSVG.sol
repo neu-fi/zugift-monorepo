@@ -6,7 +6,6 @@ pragma solidity ^0.8.17;
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 import "./interfaces/IZugiftSVG.sol";
-import "./interfaces/IDateTime.sol";
 
 contract ZugiftSVG is IZugiftSVG {
     string constant STYLES = '<style>*{stroke:black;stroke-width:1}text{font-family:Monaco;font-size:100px}.a{fill:#57b592}.b{fill:#bde4df}.c{fill:#f8ce47}.d{fill:#fcf2b1}</style>';
@@ -44,41 +43,34 @@ contract ZugiftSVG is IZugiftSVG {
         "December"
     ];
 
-    IDateTime dateTimeContract;
-
-    constructor(address _dateTimeContractAddress) {
-        dateTimeContract = IDateTime(_dateTimeContractAddress);
+    constructor() {
     }
 
     function generateTokenSVG(
         uint256 tokenId,
-        uint8[9][3] calldata numbersMatrix,
-        bool[9][3] calldata isDrawnMatrix,
-        uint8 score,
         uint256 donationAmount,
-        string memory donationName,
         address donationAddress,
         bool isBingoFinished,
         uint256 drawTimestamp
     ) external view returns (string memory) {
-        return (
-            string(
-                abi.encodePacked(
-                    _generateSvgTag(tokenId),
-                    _generateDefs(
-                        donationAmount,
-                        donationName,
-                        donationAddress,
-                        isBingoFinished,
-                        drawTimestamp
-                    ),
-                    STYLES,
-                    _generatePillPattern(tokenId),
-                    _generateCard(numbersMatrix, isDrawnMatrix),
-                    '</svg>'
-                )
-            )
-        );
+        // return (
+        //     string(
+        //         abi.encodePacked(
+        //             _generateSvgTag(tokenId),
+        //             _generateDefs(
+        //                 donationAmount,
+        //                 donationName,
+        //                 donationAddress,
+        //                 isBingoFinished,
+        //                 drawTimestamp
+        //             ),
+        //             STYLES,
+        //             _generatePillPattern(tokenId),
+        //             _generateCard(numbersMatrix, isDrawnMatrix),
+        //             '</svg>'
+        //         )
+        //     )
+        // );
     }
 
     function _generateSvgTag(
@@ -136,56 +128,7 @@ contract ZugiftSVG is IZugiftSVG {
                     unicode' · ',
                     Strings.toHexString(uint256(uint160(donationAddress)), 20),
                     unicode' · ',
-                    _generateDate(drawTimestamp)
-                )
-            )
-        );
-    }
-
-    function _generateDate(uint256 timestamp)
-        internal
-        view
-        returns (string memory)
-    {
-        uint256 year;
-        uint256 month;
-        uint256 day;
-        uint256 hour;
-        uint256 minute;
-
-        (year, month, day, hour, minute, ) = dateTimeContract
-            .timestampToDateTime(timestamp);
-
-        string memory minuteString;
-        string memory hourString;
-
-        if (minute < 10) {
-            minuteString = string(
-                abi.encodePacked('0', Strings.toString(minute))
-            );
-        } else {
-            minuteString = Strings.toString(minute);
-        }
-
-        if (hour < 10) {
-            hourString = string(abi.encodePacked('0', Strings.toString(hour)));
-        } else {
-            hourString = Strings.toString(hour);
-        }
-
-        return (
-            string(
-                abi.encodePacked(
-                    MONTHS[month - 1],
-                    ' ',
-                    Strings.toString(day),
-                    ', ',
-                    Strings.toString(year),
-                    ' ',
-                    hourString,
-                    ':',
-                    minuteString,
-                    ' UTC'
+                    ''
                 )
             )
         );

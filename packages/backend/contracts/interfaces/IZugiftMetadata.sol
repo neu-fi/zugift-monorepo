@@ -1,11 +1,7 @@
 interface IZugiftMetadata {
     function generateTokenURI(
         uint256 tokenId,
-        uint8[9][3] calldata numbersMatrix,
-        bool[9][3] calldata isDrawnMatrix,
-        uint8 score,
         uint256 donationAmount,
-        string memory donationName,
         address donationAddress,
         bool isBingoFinished,
         uint256 drawTimestamp
