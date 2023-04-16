@@ -57,6 +57,12 @@ const main: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
     wrapperAddress = vrfV2Wrapper.address;
   }
+  
+  await deploy('Zupass', {
+    args: ['Zuzalu Passports', 'ZUPASS'],
+    from: deployer,
+    log: true,
+  });
 
   let zugiftSVG = await deploy('ZugiftSVG', {
     args: [bokkyPooBahsBokkyPooBahsDateTimeContractAddress],
