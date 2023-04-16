@@ -23,6 +23,6 @@ export const CHAIN_NAME = supportedChain.name;
 export const CHAINS = chains;
 export const PROVIDER = provider;
 
-let regenBingo = (contracts as any)[CHAIN_ID][0].contracts.RegenBingo;
-export const CONTRACT_ADDRESS = regenBingo.address;
-export const CONTRACT_ABI = regenBingo.abi;
+let zugift = (contracts as any)[CHAIN_ID][0].contracts.Zugift;
+export const CONTRACT_ADDRESS = zugift.address;
+export const CONTRACT_ABI = zugift.abi;

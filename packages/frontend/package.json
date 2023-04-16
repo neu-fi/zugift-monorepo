@@ -1,6 +1,6 @@
 {
-  "name": "@regen-bingo/frontend",
-  "version": "0.1.0",
+  "name": "@zugift/frontend",
+  "version": "0.0.1",
   "description": "",
   "private": true,
   "scripts": {

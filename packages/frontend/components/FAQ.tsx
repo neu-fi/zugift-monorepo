@@ -10,7 +10,7 @@ const faqs = [
 
     While there are a couple of versions of the game, this version is based-on the widely known British version where the win condition is simply being the first to match all numbers on the card with the randomly drawn numbers.
     
-    RegenBingo is a simple experimental game to raise ETH for public goods funding while entertaining us greenpilled regens. We're always looking for creative ways to help contribute to public good causes.
+    Zugift is a simple experimental game to raise ETH for public goods funding while entertaining us greenpilled regens. We're always looking for creative ways to help contribute to public good causes.
     `,
   },
   {

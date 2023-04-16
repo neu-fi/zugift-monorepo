@@ -3,13 +3,13 @@ import { ethers, deployments } from "hardhat";
 import { loadFixture, time } from "@nomicfoundation/hardhat-network-helpers";
 import { BigNumber } from "ethers";
 
-const name = "RegenBingo";
+const name = "Zugift";
 const symbol = "BINGO";
 const mintPrice = ethers.utils.parseEther("0.2") ;
 const drawCooldownSeconds = 60 * 60; // 1 hour
 const drawNumberCooldownMultiplier = 3; // 3 seconds per numbers drawn
 
-describe("RegenBingo", function () {
+describe("Zugift", function () {
     async function deployBingoFixture() {
         const [signer1, signer2, signer3] = await ethers.getSigners();
         const firstDrawTimestamp = (await time.latest()) + drawCooldownSeconds;
@@ -48,16 +48,16 @@ describe("RegenBingo", function () {
         const bokkyPooBahsBokkyPooBahsDateTimeContract = await BokkyPooBahsDateTimeContract.deploy();
         await bokkyPooBahsBokkyPooBahsDateTimeContract.deployed();
 
-        const RegenBingoSVG = await ethers.getContractFactory("RegenBingoSVG");
-        const regenBingoSVG = await RegenBingoSVG.deploy(bokkyPooBahsBokkyPooBahsDateTimeContract.address);
-        await regenBingoSVG.deployed();
+        const ZugiftSVG = await ethers.getContractFactory("ZugiftSVG");
+        const zugiftSVG = await ZugiftSVG.deploy(bokkyPooBahsBokkyPooBahsDateTimeContract.address);
+        await zugiftSVG.deployed();
 
-        const RegenBingoMetadata = await ethers.getContractFactory("RegenBingoMetadata");
-        const regenBingoMetadata = await RegenBingoMetadata.deploy(regenBingoSVG.address);
-        await regenBingoMetadata.deployed();
+        const ZugiftMetadata = await ethers.getContractFactory("ZugiftMetadata");
+        const zugiftMetadata = await ZugiftMetadata.deploy(zugiftSVG.address);
+        await zugiftMetadata.deployed();
 
-        const RegenBingo = await ethers.getContractFactory("$RegenBingo");
-        const regenBingo = await RegenBingo.deploy(
+        const Zugift = await ethers.getContractFactory("$Zugift");
+        const zugift = await Zugift.deploy(
             name,
             symbol,
             mintPrice,
@@ -65,11 +65,11 @@ describe("RegenBingo", function () {
             drawNumberCooldownMultiplier,
             donationName,
             donationAddress,
-            regenBingoMetadata.address,
+            zugiftMetadata.address,
             linkToken.address,
             vrfV2Wrapper.address
         );
-        await regenBingo.deployed();
+        await zugift.deployed();
 
         // Configurations //
 
@@ -88,11 +88,11 @@ describe("RegenBingo", function () {
         
         await (await vrfCoordinatorV2Mock.fundSubscription(1, BigNumber.from(String(100 * 1e18)))).wait() // 100 LINK
 
-        await (await linkToken.transfer(regenBingo.address, "302951757588516228")).wait(); //
+        await (await linkToken.transfer(zugift.address, "302951757588516228")).wait(); //
 
         const startDrawPeriod = async () => {
-            await time.increaseTo(Number(await regenBingo.firstDrawTimestamp()));
-            await (await regenBingo.startDrawPeriod()).wait();
+            await time.increaseTo(Number(await zugift.firstDrawTimestamp()));
+            await (await zugift.startDrawPeriod()).wait();
         }
 
         const provideRandomness = async (_requestId : BigNumber) => {
@@ -109,50 +109,50 @@ describe("RegenBingo", function () {
             return randomness.toString();
         }
 
-        return { regenBingo, signer1, signer2, donationName, donationAddress, firstDrawTimestamp, vrfCoordinatorV2Mock, provideRandomness, startDrawPeriod};
+        return { zugift, signer1, signer2, donationName, donationAddress, firstDrawTimestamp, vrfCoordinatorV2Mock, provideRandomness, startDrawPeriod};
     }
 
     describe("Deployment", function () {
         it("Should set constructor arguments correctly", async function () {
-            const { regenBingo, donationAddress, firstDrawTimestamp } = await loadFixture(deployBingoFixture);
+            const { zugift, donationAddress, firstDrawTimestamp } = await loadFixture(deployBingoFixture);
 
-            expect(await regenBingo.name()).to.equal(name);
-            expect(await regenBingo.symbol()).to.equal(symbol);
-            expect(await regenBingo.mintPrice()).to.equal(mintPrice);
-            expect(await regenBingo.firstDrawTimestamp()).to.equal(firstDrawTimestamp);
-            expect(await regenBingo.drawNumberCooldownMultiplier()).to.equal(drawNumberCooldownMultiplier);
-            expect(await regenBingo.donationAddress()).to.equal(donationAddress);
+            expect(await zugift.name()).to.equal(name);
+            expect(await zugift.symbol()).to.equal(symbol);
+            expect(await zugift.mintPrice()).to.equal(mintPrice);
+            expect(await zugift.firstDrawTimestamp()).to.equal(firstDrawTimestamp);
+            expect(await zugift.drawNumberCooldownMultiplier()).to.equal(drawNumberCooldownMultiplier);
+            expect(await zugift.donationAddress()).to.equal(donationAddress);
         });
     });
 
     describe("Minting", function () {
         it("Mints correctly", async function () {
-            const { regenBingo, signer1 } = await loadFixture(deployBingoFixture);
+            const { zugift, signer1 } = await loadFixture(deployBingoFixture);
 
-            await regenBingo.mint(signer1.address, 1, { value: mintPrice });
+            await zugift.mint(signer1.address, 1, { value: mintPrice });
 
-            expect(await regenBingo.balanceOf(signer1.address)).to.equal(1);
-            expect(await regenBingo.totalSupply()).to.equal(1);
+            expect(await zugift.balanceOf(signer1.address)).to.equal(1);
+            expect(await zugift.totalSupply()).to.equal(1);
         });
 
         it("Does not allow minting with incorrect payment", async function () {
-            const { regenBingo, signer1 } = await loadFixture(deployBingoFixture);
+            const { zugift, signer1 } = await loadFixture(deployBingoFixture);
 
-            await expect(regenBingo.mint(signer1.address, 1, { value: 0 })).to.be.revertedWith(
+            await expect(zugift.mint(signer1.address, 1, { value: 0 })).to.be.revertedWith(
                 "Incorrect payment"
             );
 
-            await expect(regenBingo.mint(signer1.address, 1, { value: mintPrice.mul(2) })).to.be.revertedWith(
+            await expect(zugift.mint(signer1.address, 1, { value: mintPrice.mul(2) })).to.be.revertedWith(
                 "Incorrect payment"
             );
         });
 
         it("Does not allow minting after starting the draw period", async function () {
-            const { regenBingo, signer1, startDrawPeriod, provideRandomness } = await loadFixture(deployBingoFixture);
+            const { zugift, signer1, startDrawPeriod, provideRandomness } = await loadFixture(deployBingoFixture);
 
             await startDrawPeriod();
 
-            await expect(regenBingo.mint(signer1.address, 1, { value: mintPrice })).to.be.revertedWith(
+            await expect(zugift.mint(signer1.address, 1, { value: mintPrice })).to.be.revertedWith(
                 "Not minting"
             );
         });
@@ -160,109 +160,109 @@ describe("RegenBingo", function () {
 
     describe("Drawing numbers", function () {
         it("Can start the draw period", async function() {
-            const { regenBingo, startDrawPeriod, provideRandomness } = await loadFixture(deployBingoFixture);
+            const { zugift, startDrawPeriod, provideRandomness } = await loadFixture(deployBingoFixture);
 
             await startDrawPeriod();
 
-            const requestId = await regenBingo.$lastRequestId();
+            const requestId = await zugift.$lastRequestId();
             await provideRandomness(requestId);
 
-            expect(await regenBingo.bingoState()).to.equal(BigNumber.from("1"));
+            expect(await zugift.bingoState()).to.equal(BigNumber.from("1"));
 
         })
         it("Sets seed to VRF response", async function () {
-            const { regenBingo, startDrawPeriod, provideRandomness } = await loadFixture(deployBingoFixture);
+            const { zugift, startDrawPeriod, provideRandomness } = await loadFixture(deployBingoFixture);
 
             await startDrawPeriod();
 
-            const requestId = await regenBingo.$lastRequestId();
+            const requestId = await zugift.$lastRequestId();
             let randomness = await provideRandomness(requestId);
 
-            expect(await regenBingo.$drawSeed()).not.to.equal(BigNumber.from("0"));
-            expect(await regenBingo.$drawSeed()).to.equal(BigNumber.from(randomness));
+            expect(await zugift.$drawSeed()).not.to.equal(BigNumber.from("0"));
+            expect(await zugift.$drawSeed()).to.equal(BigNumber.from(randomness));
         });
         it("Draws one number correctly", async function () {
-            const { regenBingo, startDrawPeriod, provideRandomness } = await loadFixture(deployBingoFixture);
+            const { zugift, startDrawPeriod, provideRandomness } = await loadFixture(deployBingoFixture);
 
             await startDrawPeriod();
 
-            const requestId = await regenBingo.$lastRequestId();
+            const requestId = await zugift.$lastRequestId();
             await provideRandomness(requestId);
 
-            let tx = await regenBingo.drawNumber();
+            let tx = await zugift.drawNumber();
             let receipt = await tx.wait();
             let drawnNumber = Number(receipt.events[0].data);
 
             expect(drawnNumber).to.be.within(1, 90);
-            expect(await regenBingo.getDrawnNumbers()).deep.includes(drawnNumber); 
+            expect(await zugift.getDrawnNumbers()).deep.includes(drawnNumber); 
         });
 
         it("Draws multiple numbers correctly", async function () {
-            const { regenBingo, startDrawPeriod, provideRandomness } = await loadFixture(deployBingoFixture);
+            const { zugift, startDrawPeriod, provideRandomness } = await loadFixture(deployBingoFixture);
 
             await startDrawPeriod();
 
-            const requestId = await regenBingo.$lastRequestId();
+            const requestId = await zugift.$lastRequestId();
             await provideRandomness(requestId);
 
-            let tx1 = await regenBingo.drawNumber();
+            let tx1 = await zugift.drawNumber();
             let receipt1 = await tx1.wait();
             let drawnNumber1 = Number(receipt1.events[0].data);
 
-            await time.increaseTo(Number(await regenBingo.nextDrawTimestamp()));
-            let tx2 = await regenBingo.drawNumber();
+            await time.increaseTo(Number(await zugift.nextDrawTimestamp()));
+            let tx2 = await zugift.drawNumber();
             let receipt2 = await tx2.wait();
             let drawnNumber2 = Number(receipt2.events[0].data);
 
             expect(drawnNumber1).to.be.within(1, 90);
-            expect(await regenBingo.getDrawnNumbers()).deep.includes(drawnNumber1);
+            expect(await zugift.getDrawnNumbers()).deep.includes(drawnNumber1);
 
             expect(drawnNumber2).to.be.within(1, 90);
-            expect(await regenBingo.getDrawnNumbers()).deep.includes(drawnNumber2);
+            expect(await zugift.getDrawnNumbers()).deep.includes(drawnNumber2);
         });
 
         it("Does not allow drawing numbers before the draw", async function () {
-            const { regenBingo } = await loadFixture(deployBingoFixture);
+            const { zugift } = await loadFixture(deployBingoFixture);
 
-            await expect(regenBingo.drawNumber()).to.be.revertedWith("Not drawing");
+            await expect(zugift.drawNumber()).to.be.revertedWith("Not drawing");
         });
 
         it("Does not allow drawing number before firstDrawTimestamp", async function () {
-            const { regenBingo, startDrawPeriod, provideRandomness } = await loadFixture(deployBingoFixture);
+            const { zugift, startDrawPeriod, provideRandomness } = await loadFixture(deployBingoFixture);
 
             await startDrawPeriod();
 
-            await regenBingo.drawNumber();
-            await expect(regenBingo.drawNumber()).to.be.revertedWith("Waiting the cooldown");
+            await zugift.drawNumber();
+            await expect(zugift.drawNumber()).to.be.revertedWith("Waiting the cooldown");
         });
     });
 
     describe("Claiming prize", function () {
         it("Draws all numbers, a card eventually win", async function () {
-            const { regenBingo, donationAddress, signer1, signer2, startDrawPeriod, provideRandomness } = await loadFixture(deployBingoFixture);
+            const { zugift, donationAddress, signer1, signer2, startDrawPeriod, provideRandomness } = await loadFixture(deployBingoFixture);
 
-            await regenBingo.connect(signer1).mint(signer1.address, 1, { value: mintPrice });
+            await zugift.connect(signer1).mint(signer1.address, 1, { value: mintPrice });
 
             await startDrawPeriod();
 
-            const requestId = await regenBingo.$lastRequestId();
+            const requestId = await zugift.$lastRequestId();
             await provideRandomness(requestId);
 
             for (let i = 0; i < 90; i++) {
-                await regenBingo.drawNumber();
-                await time.increaseTo(Number(await regenBingo.nextDrawTimestamp()));
+                await zugift.drawNumber();
+                await time.increaseTo(Number(await zugift.nextDrawTimestamp()));
             }
 
             let winnerTokenId = 1;
-            let contractBalanceBefore = await ethers.provider.getBalance(regenBingo.address);
+            let contractBalanceBefore = await ethers.provider.getBalance(zugift.address);
             let donationBalanceBefore = await ethers.provider.getBalance(donationAddress);
             let winnerBalanceBefore = await ethers.provider.getBalance(signer1.address);
 
             expect(contractBalanceBefore).to.eq(mintPrice);
 
-            await regenBingo.connect(signer2).claimPrize(winnerTokenId);
+            await zugift.connect(signer2).claimPrize(winnerTokenId);
 
-            expect(await ethers.provider.getBalance(regenBingo.address)).to.eq(0);
+            expect(await ethers.provider.getBalance(zugift.address)).to.eq(0);
             expect(await ethers.provider.getBalance(donationAddress)).to.eq(
                 donationBalanceBefore.add(mintPrice.div(2))
             );
@@ -272,31 +272,31 @@ describe("RegenBingo", function () {
         });
 
         it("Cannot claim before the game starts", async function () {
-            const { regenBingo, signer1 } = await loadFixture(deployBingoFixture);
+            const { zugift, signer1 } = await loadFixture(deployBingoFixture);
 
-            await regenBingo.mint(signer1.address, 1, { value: mintPrice });
+            await zugift.mint(signer1.address, 1, { value: mintPrice });
 
-            await expect(regenBingo.claimPrize(1)).to.be.revertedWith("Not drawing");
+            await expect(zugift.claimPrize(1)).to.be.revertedWith("Not drawing");
         });
 
         it("Invalid cards can not claim", async function () {
-            const { regenBingo, startDrawPeriod } = await loadFixture(deployBingoFixture);
+            const { zugift, startDrawPeriod } = await loadFixture(deployBingoFixture);
             
             await startDrawPeriod();
 
-            await expect(regenBingo.claimPrize(0)).to.be.revertedWith("Invalid token ID");
-            await expect(regenBingo.claimPrize(1)).to.be.revertedWith("Invalid token ID");
-            await expect(regenBingo.claimPrize(42)).to.be.revertedWith("Invalid token ID");
+            await expect(zugift.claimPrize(0)).to.be.revertedWith("Invalid token ID");
+            await expect(zugift.claimPrize(1)).to.be.revertedWith("Invalid token ID");
+            await expect(zugift.claimPrize(42)).to.be.revertedWith("Invalid token ID");
         });
 
         it("Losing cards can not claim", async function () {
-            const { regenBingo, signer1, startDrawPeriod } = await loadFixture(deployBingoFixture);
+            const { zugift, signer1, startDrawPeriod } = await loadFixture(deployBingoFixture);
 
-            await regenBingo.mint(signer1.address, 1, { value: mintPrice });
+            await zugift.mint(signer1.address, 1, { value: mintPrice });
             
             await startDrawPeriod();
 
-            await expect(regenBingo.claimPrize(1)).to.be.revertedWith("Ineligible");
+            await expect(zugift.claimPrize(1)).to.be.revertedWith("Ineligible");
         });
     });
 
@@ -304,7 +304,7 @@ describe("RegenBingo", function () {
         // Format is like the following:
         // Donating 0.1 ETH · Donation Name · 0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc · January 29, 2023 05:28 UTC
         it("Rolling text test (Donating)", async function() {
-            const { regenBingo, donationAddress, firstDrawTimestamp, donationName, signer1 } = await loadFixture(deployBingoFixture);
+            const { zugift, donationAddress, firstDrawTimestamp, donationName, signer1 } = await loadFixture(deployBingoFixture);
             const donationAmount = String(ethers.utils.formatEther(String(Number(mintPrice) / 2)));
             const MONTHS = [
                 "January",
@@ -321,10 +321,10 @@ describe("RegenBingo", function () {
                 "December"
             ];
 
-            const tx = await regenBingo.mint(signer1.address, 1, { value: mintPrice });
+            const tx = await zugift.mint(signer1.address, 1, { value: mintPrice });
             await tx.wait();
 
-            const tokenURI = await regenBingo.tokenURI(1);
+            const tokenURI = await zugift.tokenURI(1);
             console.log(tokenURI)
             const decodedTokenURI = JSON.parse(Buffer.from(tokenURI.split(',')[1], 'base64').toString());
             console.log(decodedTokenURI)

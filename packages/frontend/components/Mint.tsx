@@ -86,10 +86,10 @@ export default function Mint(props: PropsWithChildren<MintProps>) {
             <div>
               <div>
                 <h1 className="text-4xl font-bold tracking-tight sm:text-center sm:text-6xl">
-                  Regen Bingo
+                  Zugift
                 </h1>
                 <p className="mt-6 text-lg leading-8 text-gray-600 sm:text-center">
-                  Mint Regen Bingo Cards to contribute to public goods funding
+                  Gift Zugifts to contribute to public goods funding
                   while getting a chance to claim the prize pool!
                 </p>
                 <div className="mt-8 flex gap-x-4 sm:justify-center">

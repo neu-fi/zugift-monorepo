@@ -42,7 +42,7 @@ const localhostArgs = [
   "0xc4c302f0d81F3E9a86d468f585dAe26F92D9F5EA",
 ];
 
-export const regenBingoArgs: (string | number | BigNumber)[] = (() => {
+export const zugiftArgs: (string | number | BigNumber)[] = (() => {
   switch (network) {
     case "ethereum":
       return ethereumArgs;

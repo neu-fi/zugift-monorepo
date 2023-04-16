@@ -2,12 +2,12 @@ import { BigNumber, utils } from 'ethers';
 const hre = require("hardhat");
 
 async function provideRandomness() {
-    const regenBingoContract = await hre.ethers.getContract("RegenBingo");
+    const zugiftContract = await hre.ethers.getContract("Zugift");
     const vrfCoordinatorAddress = (await hre.deployments.get("VRFCoordinatorV2Mock")).address;
     const coordinatorFactory = await hre.ethers.getContractFactory("VRFCoordinatorV2Mock");
     const vrfCoordinatorV2Mock = coordinatorFactory.attach(vrfCoordinatorAddress);
 
-    const requestId = await regenBingoContract.lastRequestId();
+    const requestId = await zugiftContract.lastRequestId();
     const randomness = [BigNumber.from(utils.randomBytes(32))];
     const wrapperAddress = (await hre.deployments.get("VRFV2Wrapper")).address;
 
@@ -21,8 +21,8 @@ async function provideRandomness() {
         }
     )).wait();
 
-    console.log("Bingo state is: ", await regenBingoContract.bingoState());
-    console.log("Draw seed is: ", (await regenBingoContract.drawSeed()).toString());
+    console.log("Bingo state is: ", await zugiftContract.bingoState());
+    console.log("Draw seed is: ", (await zugiftContract.drawSeed()).toString());
 }
 
 provideRandomness()

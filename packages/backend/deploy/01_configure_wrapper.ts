@@ -35,4 +35,4 @@ const main: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
  
 export default main;
  
-export const tags = ['all', 'regen-bingo'];
+export const tags = ['all', 'zugift'];

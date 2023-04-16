@@ -1448,9 +1448,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@regen-bingo/backend@workspace:packages/backend":
+"@zugift/backend@workspace:packages/backend":
   version: 0.0.0-use.local
-  resolution: "@regen-bingo/backend@workspace:packages/backend"
+  resolution: "@zugift/backend@workspace:packages/backend"
   dependencies:
     "@chainlink/contracts": ^0.6.0
     "@nomicfoundation/hardhat-network-helpers": ^1.0.7
@@ -1477,9 +1477,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@regen-bingo/frontend@workspace:packages/frontend":
+"@zugift/frontend@workspace:packages/frontend":
   version: 0.0.0-use.local
-  resolution: "@regen-bingo/frontend@workspace:packages/frontend"
+  resolution: "@zugift/frontend@workspace:packages/frontend"
   dependencies:
     "@headlessui/react": ^1.7.7
     "@heroicons/react": ^2.0.13
@@ -12425,9 +12425,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"regen-bingo@workspace:.":
+"zugift@workspace:.":
   version: 0.0.0-use.local
-  resolution: "regen-bingo@workspace:."
+  resolution: "zugift@workspace:."
   languageName: unknown
   linkType: soft
 

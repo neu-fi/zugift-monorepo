@@ -19,7 +19,7 @@ import { green } from "tailwindcss/colors";
 import { ThemeOptions } from "@rainbow-me/rainbowkit/dist/themes/baseTheme";
 
 const { connectors } = getDefaultWallets({
-  appName: "regen-bingo",
+  appName: "zugift",
   chains: CHAINS,
 });
 
@@ -62,7 +62,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           theme="light"
         />
         <NextHead>
-          <title>Regen Bingo</title>
+          <title>Zugift</title>
         </NextHead>
         <Layout>
           <Component {...pageProps} />

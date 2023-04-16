@@ -1,6 +1,6 @@
 {
-  "name": "@regen-bingo/backend",
-  "version": "1.0.0",
+  "name": "@zugift/backend",
+  "version": "0.0.1",
   "description": "",
   "private": true,
   "scripts": {

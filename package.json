@@ -1,20 +1,20 @@
 {
-  "name": "regen-bingo",
+  "name": "zugift",
   "version": "0.0.1",
-  "description": "A global trustless Bingo game where half of the proceeds go to public good funding",
+  "description": "ENSBound Zugift NFTs for funding Zuzalu through creating an endorsement network",
   "main": "index.js",
   "private": true,
   "scripts": {
-    "dev": "yarn workspace @regen-bingo/frontend dev",
-    "build": "yarn workspace @regen-bingo/frontend build",
-    "start": "yarn workspace @regen-bingo/frontend start",
-    "lint": "yarn workspace @regen-bingo/frontend lint",
-    "chain": "yarn workspace @regen-bingo/backend chain",
-    "compile": "yarn workspace @regen-bingo/backend compile",
-    "test": "yarn workspace @regen-bingo/backend test",
-    "clean": "yarn workspace @regen-bingo/backend clean",
-    "deploy": "yarn workspace @regen-bingo/backend deploy",
-    "random": "yarn workspace @regen-bingo/backend hardhat run scripts/provide_randomness.ts"
+    "dev": "yarn workspace @zugift/frontend dev",
+    "build": "yarn workspace @zugift/frontend build",
+    "start": "yarn workspace @zugift/frontend start",
+    "lint": "yarn workspace @zugift/frontend lint",
+    "chain": "yarn workspace @zugift/backend chain",
+    "compile": "yarn workspace @zugift/backend compile",
+    "test": "yarn workspace @zugift/backend test",
+    "clean": "yarn workspace @zugift/backend clean",
+    "deploy": "yarn workspace @zugift/backend deploy",
+    "random": "yarn workspace @zugift/backend hardhat run scripts/provide_randomness.ts"
   },
   "workspaces": {
     "packages": [

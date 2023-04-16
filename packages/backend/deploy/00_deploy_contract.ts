@@ -1,6 +1,6 @@
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { DeployFunction } from 'hardhat-deploy/types';
-import { BokkyPooBahsDateTimeContractAddress, LinkAddress, WrapperAddress, regenBingoArgs } from '../config';
+import { BokkyPooBahsDateTimeContractAddress, LinkAddress, WrapperAddress, zugiftArgs } from '../config';
 import { BigNumber } from 'ethers';
 
 const main: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
@@ -58,20 +58,20 @@ const main: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     wrapperAddress = vrfV2Wrapper.address;
   }
 
-  let regenBingoSVG = await deploy('RegenBingoSVG', {
+  let zugiftSVG = await deploy('ZugiftSVG', {
     args: [bokkyPooBahsBokkyPooBahsDateTimeContractAddress],
     from: deployer,
     log: true,
   });
 
-  let regenBingoMetadata = await deploy("RegenBingoMetadata", {
-    args: [regenBingoSVG.address],
+  let zugiftMetadata = await deploy("ZugiftMetadata", {
+    args: [zugiftSVG.address],
     from: deployer,
     log: true,
   });
   
-  await deploy('RegenBingo', {
-    args: [...regenBingoArgs, regenBingoMetadata.address, linkAddress, wrapperAddress],
+  await deploy('Zugift', {
+    args: [...zugiftArgs, zugiftMetadata.address, linkAddress, wrapperAddress],
     from: deployer,
     log: true,
   });
@@ -79,4 +79,4 @@ const main: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
 export default main;
 
-export const tags = ["all", "regen-bingo"];
+export const tags = ["all", "zugift"];

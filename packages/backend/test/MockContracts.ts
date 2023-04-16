@@ -3,7 +3,7 @@ import { ethers } from "hardhat";
 import { loadFixture, time, mine} from "@nomicfoundation/hardhat-network-helpers";
 import { BigNumber } from "ethers";
 
-const name = "RegenBingo";
+const name = "Zugift";
 const symbol = "BINGO";
 const mintPrice = ethers.utils.parseEther("0.2") ;
 const drawCooldownSeconds = 60 * 60; // 1 hour
@@ -48,16 +48,16 @@ describe("Chainlink contract integrations", function () {
         const bokkyPooBahsBokkyPooBahsDateTimeContract = await BokkyPooBahsDateTimeContract.deploy();
         await bokkyPooBahsBokkyPooBahsDateTimeContract.deployed();
 
-        const RegenBingoSVG = await ethers.getContractFactory("RegenBingoSVG");
-        const regenBingoSVG = await RegenBingoSVG.deploy(bokkyPooBahsBokkyPooBahsDateTimeContract.address);
-        await regenBingoSVG.deployed();
+        const ZugiftSVG = await ethers.getContractFactory("ZugiftSVG");
+        const zugiftSVG = await ZugiftSVG.deploy(bokkyPooBahsBokkyPooBahsDateTimeContract.address);
+        await zugiftSVG.deployed();
 
-        const RegenBingoMetadata = await ethers.getContractFactory("RegenBingoMetadata");
-        const regenBingoMetadata = await RegenBingoMetadata.deploy(regenBingoSVG.address);
-        await regenBingoMetadata.deployed();
+        const ZugiftMetadata = await ethers.getContractFactory("ZugiftMetadata");
+        const zugiftMetadata = await ZugiftMetadata.deploy(zugiftSVG.address);
+        await zugiftMetadata.deployed();
 
-        const RegenBingo = await ethers.getContractFactory("$RegenBingo");
-        const regenBingo = await RegenBingo.deploy(
+        const Zugift = await ethers.getContractFactory("$Zugift");
+        const zugift = await Zugift.deploy(
             name,
             symbol,
             mintPrice,
@@ -65,11 +65,11 @@ describe("Chainlink contract integrations", function () {
             drawNumberCooldownMultiplier,
             donationName,
             donationAddress,
-            regenBingoMetadata.address,
+            zugiftMetadata.address,
             linkToken.address,
             vrfV2Wrapper.address
         );
-        await regenBingo.deployed();
+        await zugift.deployed();
 
         // Configurations //
 
@@ -89,7 +89,7 @@ describe("Chainlink contract integrations", function () {
         await (await vrfCoordinatorV2Mock.fundSubscription(1, BigNumber.from(String(100 * 1e18)))).wait() // 100 LINK
 
         const fundWithLINK = async (_linkAmount : string) => {
-            await (await linkToken.transfer(regenBingo.address, _linkAmount)).wait();
+            await (await linkToken.transfer(zugift.address, _linkAmount)).wait();
         }
 
         const provideRandomness = async (_requestId : BigNumber) => {
@@ -105,104 +105,104 @@ describe("Chainlink contract integrations", function () {
             )).wait();
         }
 
-        return { regenBingo, signer1, signer2, donationName, donationAddress, drawTimestamp, vrfCoordinatorV2Mock, provideRandomness, fundWithLINK};
+        return { zugift, signer1, signer2, donationName, donationAddress, drawTimestamp, vrfCoordinatorV2Mock, provideRandomness, fundWithLINK};
     }
     describe("Randomness Request", async function () {
         it("Cannot get random seed before not funding with link", async function () {
-            const { regenBingo } = await loadFixture(deployBingoFixture);
+            const { zugift } = await loadFixture(deployBingoFixture);
 
             await time.increase(drawCooldownSeconds);
 
-            await expect(regenBingo.startDrawPeriod()).to.be.reverted;
+            await expect(zugift.startDrawPeriod()).to.be.reverted;
             
         });
         it("Cannot get random seed with insufficent link balance", async function () {
-            const { regenBingo, fundWithLINK } = await loadFixture(deployBingoFixture);
+            const { zugift, fundWithLINK } = await loadFixture(deployBingoFixture);
 
             const linkAmount = "302";
             await fundWithLINK(linkAmount);
             await time.increase(drawCooldownSeconds);
 
-            await expect(regenBingo.startDrawPeriod()).to.be.reverted;
+            await expect(zugift.startDrawPeriod()).to.be.reverted;
             
         });
         it("Should succesfully request a random word", async function () {
-            const { regenBingo, fundWithLINK, vrfCoordinatorV2Mock } = await loadFixture(deployBingoFixture);
+            const { zugift, fundWithLINK, vrfCoordinatorV2Mock } = await loadFixture(deployBingoFixture);
 
             const linkAmount = "302951757588516228";
             await fundWithLINK(linkAmount);
             await time.increase(drawCooldownSeconds);
 
-            await expect(regenBingo.startDrawPeriod()).to.emit(vrfCoordinatorV2Mock, "RandomWordsRequested");
-            expect(await regenBingo.$lastRequestId()).to.equal(BigNumber.from("1"));
+            await expect(zugift.startDrawPeriod()).to.emit(vrfCoordinatorV2Mock, "RandomWordsRequested");
+            expect(await zugift.$lastRequestId()).to.equal(BigNumber.from("1"));
         })
         it("Cannot rerequest random seed before drawTimestamp", async function () {
-            const { regenBingo, fundWithLINK } = await loadFixture(deployBingoFixture);
+            const { zugift, fundWithLINK } = await loadFixture(deployBingoFixture);
 
             const linkAmount = "3029517575885162280";
             await fundWithLINK(linkAmount);
 
-            await expect(regenBingo.rerequestDrawSeed()).to.be.revertedWith("Not drawing");
+            await expect(zugift.rerequestDrawSeed()).to.be.revertedWith("Not drawing");
         });
         it("Cannot rerequest before vrf_cooldown", async function () {
-            const { regenBingo, fundWithLINK } = await loadFixture(deployBingoFixture);
+            const { zugift, fundWithLINK } = await loadFixture(deployBingoFixture);
 
             const linkAmount = "3029517575885162280";
             await fundWithLINK(linkAmount);
 
             await time.increase(drawCooldownSeconds);
-            await regenBingo.startDrawPeriod();
+            await zugift.startDrawPeriod();
 
-            const lastRequestId = await regenBingo.$lastRequestId();
+            const lastRequestId = await zugift.$lastRequestId();
             
             expect(lastRequestId).to.equal(BigNumber.from("1"));
-            expect(await regenBingo.$drawSeed()).to.equal(BigNumber.from("0"));
+            expect(await zugift.$drawSeed()).to.equal(BigNumber.from("0"));
 
-            await regenBingo.rerequestDrawSeed();
+            await zugift.rerequestDrawSeed();
 
-            expect(await regenBingo.$lastRequestId()).to.equal(lastRequestId);
+            expect(await zugift.$lastRequestId()).to.equal(lastRequestId);
             
         });
         it("Cannot rerequest if drawSeed is not 0", async function () {
-            const { regenBingo, fundWithLINK, vrfCoordinatorV2Mock, provideRandomness } = await loadFixture(deployBingoFixture);
+            const { zugift, fundWithLINK, vrfCoordinatorV2Mock, provideRandomness } = await loadFixture(deployBingoFixture);
 
             const linkAmount = "3029517575885162280";
             await fundWithLINK(linkAmount);
 
             await time.increase(drawCooldownSeconds);
-            await regenBingo.startDrawPeriod();
+            await zugift.startDrawPeriod();
 
-            const lastRequestId = await regenBingo.$lastRequestId();
+            const lastRequestId = await zugift.$lastRequestId();
             
             expect(lastRequestId).to.equal(BigNumber.from("1"));
-            expect(await regenBingo.$drawSeed()).to.equal(BigNumber.from("0"));
+            expect(await zugift.$drawSeed()).to.equal(BigNumber.from("0"));
             
             await provideRandomness(lastRequestId);
 
             await mine(1000);
             
-            await expect(regenBingo.rerequestDrawSeed()).to.not.emit(vrfCoordinatorV2Mock, "RandomWordsRequested");
-            expect(await regenBingo.$lastRequestId()).to.equal(lastRequestId);
+            await expect(zugift.rerequestDrawSeed()).to.not.emit(vrfCoordinatorV2Mock, "RandomWordsRequested");
+            expect(await zugift.$lastRequestId()).to.equal(lastRequestId);
         })
         it("Can rerequest random seed succesfully", async function () {
-            const { regenBingo, fundWithLINK, vrfCoordinatorV2Mock } = await loadFixture(deployBingoFixture);
+            const { zugift, fundWithLINK, vrfCoordinatorV2Mock } = await loadFixture(deployBingoFixture);
 
             const linkAmount = "3029517575885162280";
             await fundWithLINK(linkAmount);
 
             await time.increase(drawCooldownSeconds);
-            await regenBingo.startDrawPeriod();
+            await zugift.startDrawPeriod();
 
-            const lastRequestId = await regenBingo.$lastRequestId();
+            const lastRequestId = await zugift.$lastRequestId();
             
             expect(lastRequestId).to.equal(BigNumber.from("1"));
-            expect(await regenBingo.$drawSeed()).to.equal(BigNumber.from("0"));
+            expect(await zugift.$drawSeed()).to.equal(BigNumber.from("0"));
 
             await mine(1000);
             
-            await expect(regenBingo.rerequestDrawSeed()).to.emit(vrfCoordinatorV2Mock, "RandomWordsRequested");
-            expect(await regenBingo.$lastRequestId()).to.not.equal(lastRequestId);
-            expect(await regenBingo.$lastRequestId()).to.equal(BigNumber.from("2"));
+            await expect(zugift.rerequestDrawSeed()).to.emit(vrfCoordinatorV2Mock, "RandomWordsRequested");
+            expect(await zugift.$lastRequestId()).to.not.equal(lastRequestId);
+            expect(await zugift.$lastRequestId()).to.equal(BigNumber.from("2"));
         });
     });
 });

@@ -1,6 +1,6 @@
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { DeployFunction } from 'hardhat-deploy/types';
-import { regenBingoArgs, BokkyPooBahsDateTimeContractAddress, LinkAddress, WrapperAddress } from '../config';
+import { zugiftArgs, BokkyPooBahsDateTimeContractAddress, LinkAddress, WrapperAddress } from '../config';
 
 const main: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   if (hre.network.name !== 'localhost') {
@@ -15,18 +15,18 @@ const main: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     let linkAddress = LinkAddress;
     let wrapperAddress = WrapperAddress;
 
-    let regenBingoSVG = await deployments.get("RegenBingoSVG");
-    let regenBingoMetadata = await deployments.get("RegenBingoMetadata");
-    let regenBingo = await deployments.get("RegenBingo");
+    let zugiftSVG = await deployments.get("ZugiftSVG");
+    let zugiftMetadata = await deployments.get("ZugiftMetadata");
+    let zugift = await deployments.get("Zugift");
 
-    console.log("Verifiying RegenBingoSVG...");
+    console.log("Verifiying ZugiftSVG...");
     let skip0 = false;
     let counter0 = 0;
     while(!skip0 && counter0 < 10){
       try {
         counter0++;
         await hre.run("verify:verify", {
-          address: regenBingoSVG.address,
+          address: zugiftSVG.address,
           constructorArguments : [bokkyPooBahsBokkyPooBahsDateTimeContractAddress]
         });
         skip0 = true;
@@ -42,15 +42,15 @@ const main: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       }
     }
 
-    console.log("Verifiying RegenBingoMetadata...");
+    console.log("Verifiying ZugiftMetadata...");
     let skip1 = false;
     let counter1 = 0;
     while(!skip1 && counter1 < 10){
       try {
         counter1++;
         await hre.run("verify:verify", {
-          address: regenBingoMetadata.address,
-          constructorArguments: [regenBingoSVG.address]
+          address: zugiftMetadata.address,
+          constructorArguments: [zugiftSVG.address]
         });
         skip1 = true;
         console.log("Verified!");
@@ -65,15 +65,15 @@ const main: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       }
     }
 
-    console.log("Verifiying RegenBingo...");
+    console.log("Verifiying Zugift...");
     let skip2 = false;
     let counter2 = 0;
     while(!skip2 && counter2 < 10){
       try {
         counter2++;
         await hre.run("verify:verify", {
-          address: regenBingo.address,
-          constructorArguments: [...regenBingoArgs, regenBingoMetadata.address, linkAddress, wrapperAddress]
+          address: zugift.address,
+          constructorArguments: [...zugiftArgs, zugiftMetadata.address, linkAddress, wrapperAddress]
         });
         skip2 = true;
         console.log("Verified!");
@@ -92,4 +92,4 @@ const main: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
 export default main;
  
-export const tags = ['all', 'regen-bingo'];
+export const tags = ['all', 'zugift'];

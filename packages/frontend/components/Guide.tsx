@@ -8,7 +8,7 @@ export default function Guide() {
 
         <div className="row-span-2 max-w-lg">
           <span className="mt-2 block text-center text-3xl font-bold leading-8 tracking-tight text-gray-900 sm:text-2xl">
-            What the heck is RegenBingo?
+            What the heck is Zugift?
           </span>
           <p className="mt-8 text-md leading-8 text-gray-500">
             All card sale proceeds make up the prize and the public goods
@@ -28,7 +28,7 @@ export default function Guide() {
       <div className="justify-center grid grid-rows-2 grid-flow-col gap-32">
         <div className="row-span-2 max-w-lg">
           <span className="mt-2 block text-center text-3xl font-bold leading-8 tracking-tight text-gray-900 sm:text-2xl">
-            What the heck is RegenBingo?
+            What the heck is Zugift?
           </span>
           <p className="mt-8 text-md leading-8 text-gray-500">
             All card sale proceeds make up the prize and the public goods

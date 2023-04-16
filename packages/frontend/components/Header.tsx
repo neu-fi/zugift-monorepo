@@ -64,7 +64,7 @@ export default function Header(props: HeaderProps) {
           <nav className="flex h-9 items-center justify-between">
             <div className="flex justify-center align-middle items-center">
               <Link href="/#" className="p-1">
-                <span className="sr-only">Regen Bingo</span>
+                <span className="sr-only">Zugift</span>
                 <img
                   className="hidden sm:portrait:hidden sm:landscape:hidden sm:block md:portrait:hidden md:landscape:hidden lg:landscape:block sm:h-16"
                   src="/logo.png"
@@ -72,7 +72,7 @@ export default function Header(props: HeaderProps) {
                 />
               </Link>
               <Link href="/#" className="p-1">
-                <span className="sr-only">Regen Bingo</span>
+                <span className="sr-only">Zugift</span>
                 <img
                   className="block sm:portrait:block sm:landscape:block mr-2 sm:hidden md:portrait:block md:landscape:block lg:landscape:hidden"
                   width={32}
@@ -125,7 +125,7 @@ export default function Header(props: HeaderProps) {
           <div className="flex flex-col flex-grow">
             <div className="flex flex-grow flex-row justify-between  landscape:justify-around align-middle items-center">
               <Link href="/#" className="p-1 ">
-                <span className="sr-only">Regen Bingo</span>
+                <span className="sr-only">Zugift</span>
                 <img className="h-[6rem]" src="/no-icon-logo.png" alt="" />
               </Link>
 

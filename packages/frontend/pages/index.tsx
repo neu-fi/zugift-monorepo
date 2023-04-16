@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Regen Bingo</title>
+        <title>Zugift</title>
         <meta
           name="description"
           content="A global trustless Bingo game where half of the proceeds go to public good funding"

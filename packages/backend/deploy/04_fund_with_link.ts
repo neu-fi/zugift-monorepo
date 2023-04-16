@@ -11,21 +11,21 @@ const main: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   // 302951757588516228 is the LINK amount for one random [Citation needed]
   const linkAmount = "302951757588516228";
-  const regenBingoContract = await hre.ethers.getContract("RegenBingo");
+  const zugiftContract = await hre.ethers.getContract("Zugift");
   
-  let transaction = await linkContract.transfer(regenBingoContract.address, linkAmount);
+  let transaction = await linkContract.transfer(zugiftContract.address, linkAmount);
   console.log("\n");
   try {
     await transaction.wait();
     console.log(linkAmount, "LINK sent for funding regen-bingo contract");
-    console.log("Rengen Bingo's balance is: ", Number(await linkContract.balanceOf(regenBingoContract.address)));
+    console.log("Rengen Bingo's balance is: ", Number(await linkContract.balanceOf(zugiftContract.address)));
   } catch(err) {
     console.error(transaction);
-    console.error(`Cannot fund the contract. Please send LINK to: ${regenBingoContract.address}`)
+    console.error(`Cannot fund the contract. Please send LINK to: ${zugiftContract.address}`)
   }
 
 };
 
 export default main;
  
-export const tags = ['all', 'regen-bingo'];
+export const tags = ['all', 'zugift'];

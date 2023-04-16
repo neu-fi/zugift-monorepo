@@ -2,53 +2,53 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
 import { ethers } from "hardhat";
 
-describe('RegenBingoSVG', function () {
+describe('ZugiftSVG', function () {
 
-  async function deployExposedRegenBingoSVGFixture() {
+  async function deployExposedZugiftSVGFixture() {
     const DateTime = await ethers.getContractFactory("BokkyPooBahsDateTimeContract");
     const dateTime = await DateTime.deploy();
     await dateTime.deployed()
 
-    const RegenBingoSVG = await ethers.getContractFactory("$RegenBingoSVG");
-    const regenBingoSVG = await RegenBingoSVG.deploy(dateTime.address);
+    const ZugiftSVG = await ethers.getContractFactory("$ZugiftSVG");
+    const zugiftSVG = await ZugiftSVG.deploy(dateTime.address);
 
-    return { regenBingoSVG };
+    return { zugiftSVG };
   }
 
   describe('ETH converter', function () {
       it('Ether to wei: 1 ether', async function () {
-        const { regenBingoSVG } = await loadFixture(deployExposedRegenBingoSVGFixture);
+        const { zugiftSVG } = await loadFixture(deployExposedZugiftSVGFixture);
 
         const wei = ethers.BigNumber.from(String(1e18));
-        const ether = await regenBingoSVG.$_convertWEIToEtherInString(ethers.BigNumber.from(wei));
+        const ether = await zugiftSVG.$_convertWEIToEtherInString(ethers.BigNumber.from(wei));
         expect(ether).to.equal('1.00 ETH');
       })
       it('Ether to wei: 0.1 ether', async function () {
-        const { regenBingoSVG } = await loadFixture(deployExposedRegenBingoSVGFixture);
+        const { zugiftSVG } = await loadFixture(deployExposedZugiftSVGFixture);
 
         const wei = ethers.BigNumber.from(String(1e17));
-        const ether = await regenBingoSVG.$_convertWEIToEtherInString(ethers.BigNumber.from(wei));
+        const ether = await zugiftSVG.$_convertWEIToEtherInString(ethers.BigNumber.from(wei));
         expect(ether).to.equal('0.1 ETH');
       })
       it('Ether to wei: 0.005 ether', async function () {
-        const { regenBingoSVG } = await loadFixture(deployExposedRegenBingoSVGFixture);
+        const { zugiftSVG } = await loadFixture(deployExposedZugiftSVGFixture);
 
         const wei = ethers.BigNumber.from(String(1e15 * 5));
-        const ether = await regenBingoSVG.$_convertWEIToEtherInString(ethers.BigNumber.from(wei));
+        const ether = await zugiftSVG.$_convertWEIToEtherInString(ethers.BigNumber.from(wei));
         expect(ether).to.equal('0.005 ETH');
       })
       it('Ether to wei: 1 wei', async function () {
-        const { regenBingoSVG } = await loadFixture(deployExposedRegenBingoSVGFixture);
+        const { zugiftSVG } = await loadFixture(deployExposedZugiftSVGFixture);
 
         const wei = ethers.BigNumber.from(String(1));
-        const ether = await regenBingoSVG.$_convertWEIToEtherInString(ethers.BigNumber.from(wei));
+        const ether = await zugiftSVG.$_convertWEIToEtherInString(ethers.BigNumber.from(wei));
         expect(ether).to.equal('0.000000000000000001 ETH');
       })
   })
 
   describe('Rolling Text Generator', function () {
     it('Game is finished (Donated)', async function () {
-      const { regenBingoSVG } = await loadFixture(deployExposedRegenBingoSVGFixture);
+      const { zugiftSVG } = await loadFixture(deployExposedZugiftSVGFixture);
 
       const args = [
         ethers.BigNumber.from(String(1e18)),
@@ -58,14 +58,14 @@ describe('RegenBingoSVG', function () {
         ethers.BigNumber.from(String(Number(Date.now())))
       ]
 
-      const rollingText = await regenBingoSVG.$_generateRollingText(...args);
+      const rollingText = await zugiftSVG.$_generateRollingText(...args);
       const donationStatusText = rollingText.split(' ')[0];
 
       expect(donationStatusText).to.equal('Donated');
     });
     
     it('Game is not finished (Donating)', async function () {
-      const { regenBingoSVG } = await loadFixture(deployExposedRegenBingoSVGFixture);
+      const { zugiftSVG } = await loadFixture(deployExposedZugiftSVGFixture);
 
       const args = [
         ethers.BigNumber.from(String(1e18)),
@@ -75,7 +75,7 @@ describe('RegenBingoSVG', function () {
         ethers.BigNumber.from(String(Number(Date.now())))
       ];
 
-      const rollingText = await regenBingoSVG.$_generateRollingText(...args);
+      const rollingText = await zugiftSVG.$_generateRollingText(...args);
       const donationStatusText = rollingText.split(' ')[0];
 
       expect(donationStatusText).to.equal('Donating');

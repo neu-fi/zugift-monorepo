@@ -1490,7 +1490,7 @@
             }
           ]
         },
-        "RegenBingo": {
+        "Zugift": {
           "address": "0xa6959Ad6517854E1399b02d8FbAa1b7B0b8B46d0",
           "abi": [
             {
@@ -1704,7 +1704,7 @@
               "name": "bingoState",
               "outputs": [
                 {
-                  "internalType": "enum RegenBingo.BingoState",
+                  "internalType": "enum Zugift.BingoState",
                   "name": "",
                   "type": "uint8"
                 }
@@ -2256,7 +2256,7 @@
             }
           ]
         },
-        "RegenBingoMetadata": {
+        "ZugiftMetadata": {
           "address": "0x9899C272613271A3780A8784AC0761Fc6510f0f6",
           "abi": [
             {
@@ -2342,7 +2342,7 @@
               "name": "svgGenerator",
               "outputs": [
                 {
-                  "internalType": "contract IRegenBingoSVG",
+                  "internalType": "contract IZugiftSVG",
                   "name": "",
                   "type": "address"
                 }
@@ -2352,7 +2352,7 @@
             }
           ]
         },
-        "RegenBingoSVG": {
+        "ZugiftSVG": {
           "address": "0x003F5E59E2b9a16F5fF7fEF4C644f13721c8C945",
           "abi": [
             {
@@ -6010,7 +6010,7 @@
             }
           ]
         },
-        "RegenBingoSVG": {
+        "ZugiftSVG": {
           "address": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
           "abi": [
             {
@@ -6085,7 +6085,7 @@
             }
           ]
         },
-        "RegenBingoMetadata": {
+        "ZugiftMetadata": {
           "address": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
           "abi": [
             {
@@ -6176,7 +6176,7 @@
               "name": "svgGenerator",
               "outputs": [
                 {
-                  "internalType": "contract IRegenBingoSVG",
+                  "internalType": "contract IZugiftSVG",
                   "name": "",
                   "type": "address"
                 }
@@ -6186,7 +6186,7 @@
             }
           ]
         },
-        "RegenBingo": {
+        "Zugift": {
           "address": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
           "abi": [
             {
@@ -6496,7 +6496,7 @@
               "name": "bingoState",
               "outputs": [
                 {
-                  "internalType": "enum RegenBingo.BingoState",
+                  "internalType": "enum Zugift.BingoState",
                   "name": "",
                   "type": "uint8"
                 }

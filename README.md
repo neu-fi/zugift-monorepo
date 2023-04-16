@@ -1,5 +1,5 @@
-# regen-bingo
-A global trustless Bingo game where half of the proceeds go to public good funding.
+# Zugift
+## ENSBound Zugift NFTs for funding Zuzalu through creating an endorsement network
 
 ## Development
 Use Node 16+ and Yarn 3.
