@@ -36,6 +36,12 @@ hardhat deploy --max-memory 8192 --export-all ../frontend/contracts/hardhat_cont
 yarn dev
 ```
 
+## Notes
+In order to run it locally with ENS, run a local ETH mainnet fork
+```
+npx hardhat node --fork https://eth-mainnet.g.alchemy.com/v2/{KEY}
+```
+
 ## Documentations
  * [create-web3.xyz](https://create-web3.xyz) to view the full documentation of the boilerplate.
  * [wagmi](https://wagmi.sh) to learn more about the React Hooks for Web3 integrations library.
